@@ -226,6 +226,55 @@ async function fetchQuotesFromServer() {
   }
 }
 
+
+async function syncQuotes() {
+  try {
+    // Step 1: Fetch latest quotes from server
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
+    const serverData = await response.json();
+
+    // Step 2: Convert server data to quote format
+    const serverQuotes = serverData.map(post => ({
+      text: post.title,
+      category: 'Server',
+      serverId: post.id
+    }));
+
+    // Step 3: Merge server quotes with local quotes
+    let updated = false;
+    serverQuotes.forEach(serverQuote => {
+      const index = quotes.findIndex(q => q.serverId === serverQuote.serverId);
+      if (index !== -1) {
+        // Conflict resolution: server version overwrites local
+        quotes[index] = serverQuote;
+      } else {
+        // New quote from server
+        quotes.push(serverQuote);
+      }
+      updated = true;
+    });
+
+    // Step 4: Optionally simulate uploading local quotes (POST)
+    // (In real app, this would push new local quotes to the server)
+    await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      body: JSON.stringify(quotes),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    // Step 5: Save to local storage and refresh UI
+    if (updated) {
+      saveQuotes();
+      populateCategories();
+      filterQuotes();
+      notifyUser("Quotes synced successfully with server.");
+    }
+  } catch (error) {
+    console.error("Error during quote sync:", error);
+    notifyUser("Failed to sync quotes with server.");
+  }
+}
+
 /* export/import unchanged */
 function exportToJson() {
   const dataStr = JSON.stringify(quotes, null, 2);
