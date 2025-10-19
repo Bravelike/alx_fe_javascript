@@ -188,6 +188,44 @@ function addQuote() {
   filterQuotes();
 }
 
+async function fetchQuotesFromServer() {
+  try {
+    // Simulate server GET request
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
+    const serverData = await response.json();
+
+    // Map server data to quote structure
+    const serverQuotes = serverData.map(post => ({
+      text: post.title,
+      category: "Server",
+      serverId: post.id
+    }));
+
+    let updated = false;
+
+    // Merge logic: if quote with same serverId exists, replace it; else, add new
+    serverQuotes.forEach(sq => {
+      const existingIndex = quotes.findIndex(q => q.serverId === sq.serverId);
+      if (existingIndex !== -1) {
+        quotes[existingIndex] = sq; // server takes precedence
+      } else {
+        quotes.push(sq);
+      }
+      updated = true;
+    });
+
+    if (updated) {
+      saveQuotes();
+      populateCategories();
+      filterQuotes();
+      notifyUser("Quotes synced with server successfully.");
+    }
+  } catch (error) {
+    console.error("Error fetching quotes from server:", error);
+    notifyUser("Failed to sync with server.");
+  }
+}
+
 /* export/import unchanged */
 function exportToJson() {
   const dataStr = JSON.stringify(quotes, null, 2);
