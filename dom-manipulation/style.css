@@ -1,0 +1,94 @@
+  body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: #f5f7fb;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+  }
+
+  .app {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      border-radius: 10px;
+      padding: 22px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  h1 {
+      margin: 0 0 12px 0;
+  }
+
+  .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+  }
+
+  select,
+  input[type="text"],
+  button {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #d7dbe4;
+      font-size: 0.95rem;
+  }
+
+  #quoteDisplay {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      margin-bottom: 14px;
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      border-radius: 8px;
+      border: 1px solid #e6e9ef;
+      text-align: center;
+      font-size: 1.05rem;
+      color: #1f2937;
+  }
+
+  .form-area {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #e6e9ef;
+  }
+
+  .quote-item {
+      margin: 6px 0;
+      padding: 8px 10px;
+      background: #fafafa;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border: 1px solid #f0f2f5;
+  }
+
+  .meta {
+      color: #6b7280;
+      font-size: 0.85rem;
+  }
+
+  .small {
+      font-size: 0.85rem;
+      color: #6b7280;
+  }
+
+  .danger {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+  }
+
+  .muted {
+      color: #6b7280;
+      font-size: 0.9rem;
+  }
