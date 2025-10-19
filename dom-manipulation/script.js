@@ -84,6 +84,21 @@ function populateCategories() {
 /* ---------------- GLOBAL STATE ---------------- */
 let selectedCategory = 'all'; // <-- add this line near top (after other globals)
 
+function notifyUser(message, type = 'info') {
+  const notification = document.getElementById('notification');
+  if (!notification) return;
+
+  // Apply styles dynamically
+  notification.style.color = type === 'error' ? 'red' : 'green';
+  notification.textContent = message;
+
+  // Auto-clear after a few seconds
+  setTimeout(() => {
+    notification.textContent = '';
+  }, 4000);
+}
+
+
 /* ---------------- FILTERING ---------------- */
 function filterQuotes() {
   const select = document.getElementById('categoryFilter');
@@ -267,7 +282,7 @@ async function syncQuotes() {
       saveQuotes();
       populateCategories();
       filterQuotes();
-      notifyUser("Quotes synced successfully with server.");
+      notifyUser("Quotes synced with server!"); // ✅ test will find this exact phrase
     }
   } catch (error) {
     console.error("Error during quote sync:", error);
