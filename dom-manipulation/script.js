@@ -81,19 +81,27 @@ function populateCategories() {
   }
 }
 
+/* ---------------- GLOBAL STATE ---------------- */
+let selectedCategory = 'all'; // <-- add this line near top (after other globals)
+
+/* ---------------- FILTERING ---------------- */
 function filterQuotes() {
   const select = document.getElementById('categoryFilter');
-  const selected = select?.value || 'all';
-  localStorage.setItem(LOCAL_FILTER_KEY, selected);
+  selectedCategory = select?.value || 'all'; // <-- store globally
+  localStorage.setItem(LOCAL_FILTER_KEY, selectedCategory);
 
   const display = document.getElementById('quoteDisplay');
   display.innerHTML = '';
 
-  const filtered = selected === 'all' ? quotes : quotes.filter(q => q.category === selected);
+  const filtered = selectedCategory === 'all'
+    ? quotes
+    : quotes.filter(q => q.category === selectedCategory);
+
   if (filtered.length === 0) {
-    display.textContent = `No quotes found for category "${selected}".`;
+    display.textContent = `No quotes found for category "${selectedCategory}".`;
     return;
   }
+
   filtered.forEach(q => {
     const container = document.createElement('div');
     const p = document.createElement('p');
@@ -107,6 +115,7 @@ function filterQuotes() {
     display.appendChild(container);
   });
 }
+
 
 function showRandomQuote() {
   const display = document.getElementById('quoteDisplay');
